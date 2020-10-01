@@ -27,6 +27,7 @@
  */
 
 import './index.css';
+// import {hot} from 'react-hot-loader'
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';

@@ -87,6 +87,7 @@
     "@types/react-dom": "^16.9.8",
     "electron-squirrel-startup": "^1.0.0",
     "react": "^16.13.1",
-    "react-dom": "^16.13.1"
+    "react-dom": "^16.13.1",
+    "react-hot-loader": "^4.13.0"
   }
 }

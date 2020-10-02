@@ -74,6 +74,7 @@
     "@typescript-eslint/parser": "^2.18.0",
     "css-loader": "^3.0.0",
     "electron": "10.1.3",
+    "electron-rebuild": "^2.0.3",
     "eslint": "^6.8.0",
     "eslint-plugin-import": "^2.20.0",
     "fork-ts-checker-webpack-plugin": "^3.1.1",
@@ -88,6 +89,7 @@
     "electron-squirrel-startup": "^1.0.0",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
-    "react-hot-loader": "^4.13.0"
+    "react-hot-loader": "^4.13.0",
+    "winattr": "^3.0.0"
   }
 }

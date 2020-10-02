@@ -1,10 +1,8 @@
 import {hot} from 'react-hot-loader'
 import React, {useState, useEffect} from 'react'
 
-const {ipcRenderer} = require('electron')
-
-
 import fs from 'fs'
+import { ipcRenderer } from 'electron'
 
 const useFiles = (path: string) => {
     const [files, setFiles] = useState<String[]>([])
@@ -20,23 +18,35 @@ const useFiles = (path: string) => {
     return files
 }
 
+const Caps = () => {
+    const [input, setInput] = useState<string>('capitalise me')
+    const [output, setOutput] = useState<string>('')
+    useEffect(() => {
+        ipcRenderer.on('upper-response',(event, arg) => setOutput(arg))
+    },[])
+    return <div>
+        <input value={input} onChange={e => setInput(e.target.value)}/>
+        <button onClick={() => ipcRenderer.send('upper-request',input)}>CAPS</button>
+        <p>{output}</p>
+    </div>
+}
+
 const App = () => { 
     const [path, setPath] = useState('D:\\Simey')
     const files = useFiles(path)
+    const [contents, setContents] = useState([])
+    // useEffect(()=> {
+    //     setContents(indexFolder('D:/Downloads/_Ebooks'))
+    // },[])
 
-    useEffect(() => {
-        ipcRenderer.on('asynchronous-reply', (_, arg) => {
-            const message = `Asynchronous message reply: ${arg}`
-            setPath(message)
-          })
-    },[])
-    
     return <div>
-        <h1>Hello React</h1>
-        <input type="text" value={path} onChange={e => setPath(e.target.value)}/>
-        <p>{path}</p>
-{files.map(file => <p>{file}</p>)}
-        <button onClick={ipcRenderer.send('asynchronous-message', path)}>click me</button>
+            <h1>Hello React</h1>
+            <Caps />
+            <input type="text" value={path} onChange={e => setPath(e.target.value)}/>
+            <p>{JSON.stringify(contents)}</p>
+            <p>{path}</p>
+            {files.map(file => <p>{file}</p>)}
+
         </div>
 
 }

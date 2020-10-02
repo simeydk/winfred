@@ -18,6 +18,22 @@ const useFiles = (path: string) => {
     return files
 }
 
+const Search = () => {
+    const [query, setqQuery] = useState('');
+    const [results, setResults] = useState([]);
+    useEffect(() => {
+        ipcRenderer.on('search-response',(event, response) => setResults(response))
+    })
+    return <div>
+        <button onClick={() => ipcRenderer.send('search-init-request')}>Initialise</button>
+        <input type="text" value={query} onChange={e => setqQuery(e.target.value)}/>
+        <button onClick={() => ipcRenderer.send('search-request',query)}>Search</button>
+        <div>
+            <pre>{JSON.stringify(results, null, 2)}</pre>
+        </div>
+    </div>
+}
+
 const Caps = () => {
     const [input, setInput] = useState<string>('capitalise me')
     const [output, setOutput] = useState<string>('')
@@ -25,6 +41,7 @@ const Caps = () => {
         ipcRenderer.on('indexFolder-response',(event, arg) => setOutput(JSON.stringify(arg)))
     },[])
     return <div>
+        
         <input value={input} onChange={e => setInput(e.target.value)}/>
         <button onClick={() => ipcRenderer.send('indexFolder-request',input)}>CAPS</button>
         <p>{output}</p>
@@ -41,7 +58,7 @@ const App = () => {
 
     return <div>
             <h1>Hello React</h1>
-            <Caps />
+            <Search />
             <input type="text" value={path} onChange={e => setPath(e.target.value)}/>
             <p>{JSON.stringify(contents)}</p>
             <p>{path}</p>

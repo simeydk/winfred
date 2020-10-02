@@ -2,7 +2,7 @@ import { app, BrowserWindow, ipcMain } from 'electron';
 declare const MAIN_WINDOW_WEBPACK_ENTRY: any;
 
 
-
+import search from './lib/search' 
 import indexFolder from './lib/indexFolder'
 
 // Handle creating/removing shortcuts on Windows when installing/uninstalling.
@@ -54,3 +54,28 @@ app.on('activate', () => {
 
 ipcMain.addListener('upper-request',(event, s:string) => {event.sender.send('upper-response', s.toUpperCase())})
 ipcMain.addListener('indexFolder-request',(event, s:string) => {event.sender.send('indexFolder-response', indexFolder(s))})
+
+async function initSearch() {
+  const sources = [
+    'D:/Ebooks',
+    'D:/Downloads',
+  ];
+  await search.init()
+  await search.setSources(sources)
+  await search.update()
+}
+
+ipcMain.addListener('search-init-request',(event) => initSearch().then(_ => event.sender.send('search-init-response', 'done')))
+ipcMain.addListener('search-request',async (event, query) => {event.sender.send('search-response', await search.search(query))})
+console.log('test');
+
+(async () => {
+  try {
+    console.log('running eiif')
+    const results = await search.search('arc')
+    console.log('results')
+    console.log(results)
+  } catch (error) {
+    
+  }
+})();

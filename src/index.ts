@@ -53,3 +53,4 @@ app.on('activate', () => {
 // code. You can also put them in separate files and import them here.
 
 ipcMain.addListener('upper-request',(event, s:string) => {event.sender.send('upper-response', s.toUpperCase())})
+ipcMain.addListener('indexFolder-request',(event, s:string) => {event.sender.send('indexFolder-response', indexFolder(s))})

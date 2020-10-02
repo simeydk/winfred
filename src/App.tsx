@@ -22,11 +22,11 @@ const Caps = () => {
     const [input, setInput] = useState<string>('capitalise me')
     const [output, setOutput] = useState<string>('')
     useEffect(() => {
-        ipcRenderer.on('upper-response',(event, arg) => setOutput(arg))
+        ipcRenderer.on('indexFolder-response',(event, arg) => setOutput(JSON.stringify(arg)))
     },[])
     return <div>
         <input value={input} onChange={e => setInput(e.target.value)}/>
-        <button onClick={() => ipcRenderer.send('upper-request',input)}>CAPS</button>
+        <button onClick={() => ipcRenderer.send('indexFolder-request',input)}>CAPS</button>
         <p>{output}</p>
     </div>
 }
